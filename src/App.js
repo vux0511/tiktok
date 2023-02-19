@@ -1,23 +1,52 @@
-import logo from "./logo.svg";
-import "./App.css";
+import { useState } from "react";
+
+const courses = [
+    {
+        id: 1,
+        name: "React",
+    },
+    {
+        id: 2,
+        name: "JavaScript",
+    },
+    {
+        id: 3,
+        name: "HTML, CSS",
+    },
+];
 
 function App() {
+    const [checked, setChecked] = useState([]);
+    console.log(checked);
+
+    const handleSubmit = () => {
+        console.log({ id: checked });
+    };
+
+    const handleCheck = (id) => {
+        setChecked((prew) => {
+            const isChecked = checked.includes(id);
+            if (isChecked) {
+                return checked.filter((item) => item !== id);
+            } else {
+                return [...prew, id];
+            }
+        });
+    };
+
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Hello <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
+        <div className="App" style={{ padding: 32 }}>
+            {courses.map((course) => (
+                <div key={course.id}>
+                    <input
+                        type="checkbox"
+                        checked={checked.includes(course.id)}
+                        onChange={() => handleCheck(course.id)}
+                    />
+                    {course.name}
+                </div>
+            ))}
+            <button onClick={handleSubmit}>Register</button>
         </div>
     );
 }
